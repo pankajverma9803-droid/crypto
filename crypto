@@ -1,0 +1,349 @@
+import React, { useMemo } from "react";
+
+// Simple, brand-agnostic landing page inspired by the structure of group.mantle.xyz
+// ⚠️ Replace placeholder text, logos, and links with your own brand assets.
+// Deployable to GitHub Pages using any React bundler (Vite/CRA). See chat for quick steps.
+
+const data = {
+  site: {
+    name: "Your Brand",
+    tagline: "Blockchain for Banking",
+    subtext: "Bringing crypto to your everyday.",
+    cta: { label: "Learn More", href: "#innovation" },
+  },
+  nav: [
+    { label: "Home", href: "#top" },
+    { label: "Innovation", href: "#innovation" },
+    { label: "Partnerships", href: "#partnerships" },
+    { label: "Treasury", href: "#treasury" },
+    { label: "EcoFund", href: "#ecofund" },
+    { label: "Newsroom", href: "#newsroom" },
+    { label: "Careers", href: "#careers" },
+  ],
+  vision: {
+    title: "Vision",
+    text:
+      "A world where finance is free, efficient, and accessible — powered by tokenized technology and open to all.",
+  },
+  pillars: [
+    {
+      title: "Network",
+      text:
+        "An Ethereum Layer 2 with modular design and data availability innovations.",
+      href: "#",
+      tag: "Layer 2",
+    },
+    {
+      title: "Liquid Staking",
+      text:
+        "A liquid ETH staking & restaking protocol widely accepted as collateral.",
+      href: "#",
+      tag: "DeFi",
+    },
+    {
+      title: "Bitcoin Bridge",
+      text:
+        "A Bitcoin solution that bridges BTC into Web3 to unlock new opportunities.",
+      href: "#",
+      tag: "BTC",
+    },
+    {
+      title: "Index Product",
+      text:
+        "An institutional-grade, yield-bearing index offering diversified exposure.",
+      href: "#",
+      tag: "Index",
+    },
+    {
+      title: "Smart Money App",
+      text:
+        "A borderless app that makes it easy to spend, off-ramp, and manage assets.",
+      href: "#",
+      tag: "App",
+    },
+    {
+      title: "AI x Decentralization",
+      text:
+        "R&D exploring the intersection of AI agents and decentralized systems.",
+      href: "#",
+      tag: "R&D",
+    },
+  ],
+  partnerships: [
+    "Bybit",
+    "EigenLayer",
+    "Succinct",
+    "Mirana",
+    "Galaxy",
+    "AntAlpha",
+    "Ethena",
+    "Securitize",
+    "Brevan Howard",
+    "VanEck",
+    "Dragonfly",
+    "Selini",
+  ],
+  treasury: {
+    updated: "21 Aug 2025, 01:16 UTC",
+    total: 4810918961,
+    buckets: [
+      { label: "MNT", pct: 77.47, value: 3727127878 },
+      { label: "ETH + Derivatives", pct: 9.24, value: 444606879 },
+      { label: "BTC", pct: 6.94, value: 334110859 },
+      { label: "Stables", pct: 5.6, value: 269793279 },
+    ],
+  },
+  ecofund: {
+    total: 200000000,
+    blurb:
+      "The EcoFund catalyzes growth by backing transformative projects, with access to top-tier deal flow through leading VCs.",
+  },
+  news: [
+    {
+      date: "11 Jul, 2025",
+      title: "Smart Money App Early Beta Access: Weekly Prize Pool",
+      href: "#",
+      tag: "Ecosystem · App",
+    },
+    {
+      date: "10 Jul, 2025",
+      title: "Strategic Investment in Digital Asset Management Firm",
+      href: "#",
+      tag: "Ecosystem",
+    },
+    {
+      date: "09 Jul, 2025",
+      title: "Letter to Token Holders Q3 2025",
+      href: "#",
+      tag: "Network · App",
+    },
+    {
+      date: "18 Jun, 2025",
+      title: "Launching Borderless Smart Money App (Early Access)",
+      href: "#",
+      tag: "Ecosystem · App",
+    },
+  ],
+  footer: {
+    links: [
+      { label: "Governance", href: "#" },
+      { label: "Treasury", href: "#treasury" },
+      { label: "EcoFund", href: "#ecofund" },
+      { label: "Scouts Program", href: "#" },
+      { label: "Get Token", href: "#" },
+      { label: "What is Token?", href: "#" },
+    ],
+    legal: [
+      { label: "Privacy Policy", href: "#" },
+      { label: "Terms", href: "#" },
+    ],
+    copyright: `© ${new Date().getFullYear()} Your Brand. All rights reserved.`,
+  },
+};
+
+function formatUSD(n) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+
+function StatCard({ title, value, sub }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm shadow">
+      <div className="text-sm uppercase tracking-wide text-white/70">{title}</div>
+      <div className="mt-2 text-3xl font-semibold">{value}</div>
+      {sub ? <div className="mt-2 text-sm text-white/70">{sub}</div> : null}
+    </div>
+  );
+}
+
+function PillarCard({ item }) {
+  return (
+    <a
+      href={item.href}
+      className="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition shadow flex flex-col"
+    >
+      <div className="text-xs inline-flex w-fit items-center rounded-full bg-white/10 px-2 py-1 text-white/80">
+        {item.tag}
+      </div>
+      <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+      <p className="mt-2 text-sm text-white/80 leading-relaxed">{item.text}</p>
+      <span className="mt-4 text-sm font-medium text-white/90 group-hover:underline">Explore →</span>
+    </a>
+  );
+}
+
+function PartnerBadge({ name }) {
+  return (
+    <div className="flex h-16 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white/80">
+      {/* Replace with actual logo <img src="..." alt={name} className="h-7"/> */}
+      {name}
+    </div>
+  );
+}
+
+export default function App() {
+  const treasuryTotal = useMemo(() => formatUSD(data.treasury.total), []);
+
+  return (
+    <main id="top" className="min-h-screen bg-[#0b0d10] text-white">
+      {/* Top gradient */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(80rem_40rem_at_50%_-10%,rgba(120,120,255,0.2),transparent),radial-gradient(40rem_20rem_at_-10%_10%,rgba(0,255,170,0.1),transparent)]" />
+
+      {/* Navbar */}
+      <header className="sticky top-0 z-20 backdrop-blur supports-[backdrop-filter]:bg-black/30 border-b border-white/10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+          <a href="#top" className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-white/90" />
+            <span className="text-sm font-semibold tracking-wide">{data.site.name}</span>
+          </a>
+          <nav className="hidden md:flex items-center gap-6 text-sm text-white/80">
+            {data.nav.map((n) => (
+              <a key={n.label} href={n.href} className="hover:text-white">{n.label}</a>
+            ))}
+            <a href={data.site.cta.href} className="rounded-xl bg-white text-black px-4 py-2 font-medium hover:bg-white/90">{data.site.cta.label}</a>
+          </nav>
+          <div className="md:hidden text-sm">Menu</div>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="mx-auto max-w-7xl px-4 py-20">
+        <div className="grid items-center gap-10 md:grid-cols-2">
+          <div>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+              {data.site.tagline}
+            </h1>
+            <p className="mt-5 text-lg text-white/80 max-w-xl">{data.site.subtext}</p>
+            <div className="mt-7 flex items-center gap-3">
+              <a href={data.site.cta.href} className="rounded-xl bg-white text-black px-5 py-3 font-medium hover:bg-white/90">{data.site.cta.label}</a>
+              <a href="#newsroom" className="rounded-xl border border-white/20 px-5 py-3 font-medium hover:bg-white/10">Latest Updates</a>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/0 shadow-lg" />
+            <div className="pointer-events-none absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-white/10 blur-xl" />
+          </div>
+        </div>
+      </section>
+
+      {/* Vision & Stats */}
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="md:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-8">
+            <h2 className="text-2xl font-semibold">{data.vision.title}</h2>
+            <p className="mt-3 text-white/80 leading-relaxed">{data.vision.text}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <StatCard title="Total Treasury" value={treasuryTotal} sub={`Updated ${data.treasury.updated}`} />
+            <StatCard title="EcoFund" value={formatUSD(data.ecofund.total)} sub="Catalyzed Capital" />
+          </div>
+        </div>
+      </section>
+
+      {/* Innovation Pillars */}
+      <section id="innovation" className="mx-auto max-w-7xl px-4 py-14">
+        <h2 className="text-3xl font-semibold">Innovation Pillars</h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {data.pillars.map((p) => (
+            <PillarCard key={p.title} item={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* Partnerships */}
+      <section id="partnerships" className="mx-auto max-w-7xl px-4 py-14">
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl font-semibold">Partnerships</h2>
+          <a href="#" className="text-sm text-white/80 hover:underline">See all</a>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {data.partnerships.map((name) => (
+            <PartnerBadge key={name} name={name} />
+          ))}
+        </div>
+      </section>
+
+      {/* Treasury Breakdown */}
+      <section id="treasury" className="mx-auto max-w-7xl px-4 py-14">
+        <h2 className="text-3xl font-semibold">Total Treasury</h2>
+        <p className="mt-2 text-white/70">Figures are in US Dollars.</p>
+        <div className="mt-6 grid gap-4 md:grid-cols-4">
+          {data.treasury.buckets.map((b) => (
+            <div key={b.label} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="text-sm uppercase tracking-wide text-white/70">{b.label}</div>
+              <div className="mt-2 text-2xl font-semibold">{b.pct}%</div>
+              <div className="mt-1 text-sm text-white/80">{formatUSD(b.value)}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* EcoFund */}
+      <section id="ecofund" className="mx-auto max-w-7xl px-4 py-14">
+        <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/0 p-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 className="text-3xl font-semibold">EcoFund Catalyzed Capital Pool</h2>
+              <p className="mt-2 text-white/80 max-w-3xl">{data.ecofund.blurb}</p>
+            </div>
+            <div className="text-3xl font-semibold">{formatUSD(data.ecofund.total)}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsroom */}
+      <section id="newsroom" className="mx-auto max-w-7xl px-4 py-14">
+        <h2 className="text-3xl font-semibold">Spotlight</h2>
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          {data.news.map((n) => (
+            <a key={n.title} href={n.href} className="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition">
+              <div className="text-xs text-white/60">{n.date}</div>
+              <div className="mt-1 text-xs text-white/70">{n.tag}</div>
+              <h3 className="mt-2 text-xl font-semibold group-hover:underline">{n.title}</h3>
+              <div className="mt-3 text-sm">Read more →</div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Banner */}
+      <section className="mx-auto max-w-7xl px-4 pb-14">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
+          <h3 className="text-2xl font-semibold">Build with {data.site.name}</h3>
+          <p className="mt-2 text-white/80">Join our community of developers, validators, and founders.</p>
+          <div className="mt-4">
+            <a href="#careers" className="rounded-xl bg-white text-black px-5 py-3 font-medium hover:bg-white/90">Get Started</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10">
+        <div className="mx-auto max-w-7xl px-4 py-10 grid gap-6 md:grid-cols-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-white/90" />
+              <span className="text-sm font-semibold tracking-wide">{data.site.name}</span>
+            </div>
+            <p className="mt-3 text-sm text-white/70 max-w-sm">{data.vision.text}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {data.footer.links.map((l) => (
+              <a key={l.label} href={l.href} className="text-sm text-white/80 hover:text-white">{l.label}</a>
+            ))}
+          </div>
+          <div className="flex flex-col gap-2 text-sm text-white/70">
+            {data.footer.legal.map((l) => (
+              <a key={l.label} href={l.href} className="hover:text-white">{l.label}</a>
+            ))}
+            <div className="mt-2">{data.footer.copyright}</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
+
